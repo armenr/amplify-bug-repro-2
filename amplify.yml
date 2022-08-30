@@ -36,6 +36,7 @@ frontend:
   phases:
     preBuild:
       commands:
+        - git status
         - echo "Git checkout from inside frontend preBuild phase"
         - git checkout package.json
         - echo "Testing for aws-exports!!"
@@ -44,6 +45,7 @@ frontend:
         # - pnpm install
     build:
       commands:
+        - git status
         - echo "Git checkout from inside frontend build phase"
         - git checkout package.json
         - npm run build:ssg
@@ -51,7 +53,7 @@ frontend:
     baseDirectory: dist
     files:
       - "**/*"
-  cache:
-    paths:
-      - /root/.pnpm-store/**/*
-      - node_modules/**/*
+  # cache:
+  #   paths:
+  #     - /root/.pnpm-store/**/*
+  #     - node_modules/**/*
