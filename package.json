@@ -13,7 +13,9 @@
     "test:e2e": "cypress open",
     "test:unit": "vitest",
     "typecheck": "vue-tsc --noEmit",
-    "up": "taze major -I"
+    "up": "taze major -I",
+    "build:ssg": "vite-ssg build",
+    "build:std": "vite build"
   },
   "dependencies": {
     "@vueuse/core": "^9.1.1",
