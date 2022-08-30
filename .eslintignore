@@ -1,0 +1,13 @@
+dist
+ios
+android
+amplify
+*.yaml
+*.yml
+.vscode
+aws-exports.js
+aws-exports.cjs
+src/graphql/*
+
+src/models
+bak-amplify/
