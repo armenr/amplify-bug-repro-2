@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-bugreprotwo-dev-73936-authRole",
+      "UnauthRoleArn": "arn:aws:iam::204177596891:role/amplify-bugreprotwo-dev-73936-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::204177596891:role/amplify-bugreprotwo-dev-73936-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-bugreprotwo-dev-73936-deployment",
+      "UnauthRoleName": "amplify-bugreprotwo-dev-73936-unauthRole",
+      "StackName": "amplify-bugreprotwo-dev-73936",
+      "StackId": "arn:aws:cloudformation:us-west-2:204177596891:stack/amplify-bugreprotwo-dev-73936/617efd50-2815-11ed-bbde-0a93375a6a4b",
+      "AmplifyAppId": "dlfdm4k1gbk9i"
+    }
+  }
+}

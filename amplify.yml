@@ -1,0 +1,57 @@
+## Custom Amplify settings
+## REF: https://docs.aws.amazon.com/amplify/latest/userguide/build-settings.html
+## TODO: MIGRATE TO MONOREPO APPROOT SETUP
+## https://docs.aws.amazon.com/amplify/latest/userguide/monorepo-configuration.html
+version: 1
+# env:
+#   variables:
+#     AMPLIFY_DIFF_BACKEND: false
+#     AMPLIFY_DIFF_DEPLOY: false
+#     AWS_CACHE_BUCKET_READ: false
+    # USER_BRANCH:
+
+# BEGIN backend
+backend:
+  phases:
+    preBuild:
+      commands:
+        # - echo "Setting PNPM store for package caching!"
+        # - pnpm config set store-dir /root/.pnpm-store
+        # fix for parameter store when storing URLs: https://github.com/aws/aws-cli/issues/2507
+        - aws configure set cli_follow_urlparam false
+        # prevent common git branch names (feat/something) from creating invalid stack/resource name
+        # and set max length to 255 as per: https://docs.aws.amazon.com/amplify/latest/APIReference/API_BackendEnvironment.html
+        - export AWS_BRANCH_LONG_NAME=$(echo ${AWS_BRANCH} | tr "/" "-"| cut -c1-255)
+        # prevent long git branch names from creating an invalid stack/resource name
+        # set to max 20 length as per: https://github.com/aws-samples/aws-serverless-airline-booking/blob/main/amplify.yml#L9
+        - export AWS_BRANCH=$(echo ${AWS_BRANCH_LONG_NAME} | tr "/" "-"| cut -c1-20)
+        - npm install
+    build:
+      commands:
+        - echo "[!] Executing Amplify CLI helper script"
+        - amplifyPush --simple
+
+## BEGIN FrontEnd
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Git checkout from inside frontend preBuild phase"
+        - git checkout package.json
+        - echo "Testing for aws-exports!!"
+        - test -f src/aws-exports.ts && cat src/aws-exports.ts
+        # - pnpm config set store-dir /root/.pnpm-store
+        # - pnpm install
+    build:
+      commands:
+        - echo "Git checkout from inside frontend build phase"
+        - git checkout package.json
+        - npm run build:ssg
+  artifacts:
+    baseDirectory: dist
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - /root/.pnpm-store/**/*
+      - node_modules/**/*
